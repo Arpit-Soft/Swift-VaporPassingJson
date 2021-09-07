@@ -8,6 +8,11 @@
 import Foundation
 import Vapor
 
+struct User: Content {
+    let name: String
+    let age: Int
+}
+
 struct ApiController: RouteCollection {
     
     func boot(routes: RoutesBuilder) throws {
@@ -15,9 +20,12 @@ struct ApiController: RouteCollection {
         api.get("users", use: getUsers)
     }
     
-    func getUsers(req: Request) throws -> Response {
-        let users = [["name": "Arpit", "age": 27], ["name": "Pranav", "age": 56]]
-        let data = try JSONSerialization.data(withJSONObject: users, options: .prettyPrinted)
-        return Response(status: .ok, body: Response.Body(data: data))
+    func getUsers(req: Request) throws -> [User] {
+        
+        let user = User(name: "Arpit Dixit", age: 27)
+        return [user]
+//        let users = [["name": "Arpit", "age": 27], ["name": "Pranav", "age": 56]]
+//        let data = try JSONSerialization.data(withJSONObject: users, options: .prettyPrinted)
+//        return Response(status: .ok, body: Response.Body(data: data))
     }
 }
